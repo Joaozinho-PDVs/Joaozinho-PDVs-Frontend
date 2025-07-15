@@ -1,95 +1,153 @@
+'use client'
+import { Avatar, Box, Stack, Typography } from "@mui/material";
+import { SparkLineChart } from '@mui/x-charts/SparkLineChart';
+import { useTheme } from "@mui/material/styles";
+import { BarChart } from '@mui/x-charts/BarChart';
 import Image from "next/image";
-import styles from "./page.module.css";
 
-export default function Home() {
+const prodDataTest = [
+  {iconUrl: "", name: "Produto 1", code: "1234"},
+  {iconUrl: "", name: "Produto 2", code: "1234"},
+  {iconUrl: "", name: "Produto 3", code: "1234"},
+  {iconUrl: "", name: "Produto 4", code: "1234"},
+]
+
+const formatter = new Intl.DateTimeFormat("pt-BR", {
+  weekday: "short",
+  day: "2-digit",
+});
+
+const toPtBrDate = (date:Date) => {
+  return formatter.format(date).split(".,").toString()
+}
+
+export default function Dashboard() {
+  const theme = useTheme();
   return (
-    <div className={styles.page}>
-      <main className={styles.main}>
-        <Image
-          className={styles.logo}
-          src="/next.svg"
-          alt="Next.js logo"
-          width={180}
-          height={38}
-          priority
-        />
-        <ol>
-          <li>
-            Get started by editing <code>src/app/page.tsx</code>.
-          </li>
-          <li>Save and see your changes instantly.</li>
-        </ol>
+    <Box
+      sx={{
+        bgcolor: "primary.contrastText",
+        color: "primary.dark",
+        display:"flex",
+        flexDirection: "row",
+        height: "calc( 100vh - 64px )",
+        width: "100%"
+      }}
+    >
+      {/* GRÁFICOS */}
+      <Box
+        sx={{
+          flexGrow: 1,
+          flexDirection: "column",
+          alignItems: "center",
+        }}
+      >
+        <Box sx={{
+          display: "flex",
+          flexDirection: "column", 
+          justifyContent: "center", 
+          alignItems: "center",
+          padding: "10px"
+        }}>
+          <Typography variant="h5" sx={{
+            fontWeight: "600", 
+            padding: "15px",
+          }}>
+            Número de vendas
+          </Typography>
+          <BarChart
+            xAxis={[{ 
+              data: [
+                new Date(2025, 6, 12),
+                new Date(2025, 6, 13),
+                new Date(2025, 6, 14),
+                new Date(2025, 6, 15),
+                new Date(2025, 6, 16),
+                new Date(2025, 6, 17),
+                new Date(2025, 6, 18),
+              ], 
+              valueFormatter: (value:Date) => toPtBrDate(value)
+            }]}
+            series={[{ data: [33, 42, 22, 70, 10, 46, 29], color: theme.palette.primary.main}]}
+            height={300}
+            sx={{
+              maxWidth: "800px",
+              width: "100%",
+            }}
+          />
+          <Typography variant="h5" sx={{
+            fontWeight: "600", 
+            padding: "15px",
+          }}>
+            Receita (12/06/2025 - 18/06/2025)
+          </Typography>
+          <BarChart
+            xAxis={[{ 
+              data: [
+                new Date(2025, 6, 12),
+                new Date(2025, 6, 13),
+                new Date(2025, 6, 14),
+                new Date(2025, 6, 15),
+                new Date(2025, 6, 16),
+                new Date(2025, 6, 17),
+                new Date(2025, 6, 18),
+              ], 
+              valueFormatter: (value:Date) => toPtBrDate(value)
+            }]}
+            series={[{ data: [1001, 2333, 2200, 2222, 1500, 4455, 1122], color: theme.palette.primary.main}]}
+            height={300}
+            sx={{
+              maxWidth: "800px",
+              width: "100%",
+            }}
+          />
+        </Box>
+        
+      </Box>
+      <Box
+        sx={{
+          display:"flex",
+          alignItems: "center",
+          flexDirection: "column",
+          width: "350px",
+          borderStyle: "solid",
+          borderLeftWidth: "1px",
+          borderRightWidth: "0px",
+          borderTopWidth: "0px",
+          borderBottomWidth: "0px"
+        }}
+      >
+        <Typography variant="h5" sx={{fontWeight: "600", padding: "15px"}}>
+          Produtos sem estoque
+        </Typography>
 
-        <div className={styles.ctas}>
-          <a
-            className={styles.primary}
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className={styles.logo}
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={20}
-              height={20}
-            />
-            Deploy now
-          </a>
-          <a
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-            className={styles.secondary}
-          >
-            Read our docs
-          </a>
-        </div>
-      </main>
-      <footer className={styles.footer}>
-        <a
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/file.svg"
-            alt="File icon"
-            width={16}
-            height={16}
-          />
-          Learn
-        </a>
-        <a
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/window.svg"
-            alt="Window icon"
-            width={16}
-            height={16}
-          />
-          Examples
-        </a>
-        <a
-          href="https://nextjs.org?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/globe.svg"
-            alt="Globe icon"
-            width={16}
-            height={16}
-          />
-          Go to nextjs.org →
-        </a>
-      </footer>
-    </div>
+        <Stack spacing={1} direction={"column"}>
+          {prodDataTest.map((prod, prodKey) => {
+            return(
+              <Box
+                key={prodKey}
+                sx={{
+                  width: "300px",
+                  height: "64px",
+                  border: "solid 1px",
+                  borderRadius: "10px",
+                  display: "flex",
+                  alignItems: "center",
+                  padding: "10px"
+                }}
+              >
+                <Avatar> </Avatar>
+                <Typography sx={{flexGrow: 1, paddingInline: "10px"}}>
+                  {prod.name}
+                </Typography>
+                <Typography sx={{paddingInline: "10px"}}>
+                  {prod.code}
+                </Typography>
+              </Box>
+            );
+          })}
+        </Stack>
+      </Box>
+    </Box>
   );
 }
